@@ -1,0 +1,210 @@
+%close all; clear all;
+clc;
+
+
+data = dlmread('D:\Haji Data\Graph_Datasets\HT.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\IC.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\CB.txt');
+
+% data = dlmread('D:\Haji Data\Graph_Datasets\GF.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\Lexical.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\ET.txt');
+
+
+% data = dlmread('D:\Haji Data\Graph_Datasets\football.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\train_bombing.txt');
+% data = dlmread('F:\Graph_Datasets\human_contact.txt');
+% data = dlmread('F:\Graph_Datasets\kangro.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\zebra.txt');
+% data = dlmread('F:\Graph_Datasets\conti_usa.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\sampson_net.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\dolphin_original.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\karate.txt');
+% data = dlmread('D:\Haji Data\Graph_Datasets\USAir.txt');
+
+
+% data = dlmread('F:\Graph_Datasets\yeast.txt');
+% data = dlmread('F:\Graph_Datasets\router.txt');
+% data = dlmread('F:\Graph_Datasets\twitter.txt');
+% data = dlmread('F:\Graph_Datasets\us_power_grid.txt');
+% data = dlmread('F:\Graph_Datasets\us_air_97.txt');
+% data = dlmread('F:\Graph_Datasets\f_book.txt');
+% data = dlmread('F:\Graph_Datasets\kindergarten.txt');
+% data = dlmread('F:\Graph_Datasets\florentine1.txt');
+
+% data = dlmread('F:\Graph_Datasets\us-airports.txt');
+% data = dlmread('F:\Graph_Datasets\terrorists.txt');
+% data = dlmread('F:\Graph_Datasets\scientometrics.txt');
+% data = dlmread('F:\Graph_Datasets\primated.txt');
+% data = dlmread('F:\Graph_Datasets\paaris.txt');
+% data = dlmread('F:\Graph_Datasets\PB.txt');
+% data = dlmread('F:\Graph_Datasets\new-york.txt');
+% data = dlmread('F:\Graph_Datasets\los-angeles.txt');
+% data = dlmread('F:\Graph_Datasets\london.txt');
+% data = dlmread('F:\Graph_Datasets\e-coli.txt');
+% data = dlmread('F:\Graph_Datasets\clgmsg_2c.txt');
+% data = dlmread('F:\Graph_Datasets\c_elegans_undir_names.txt');
+% data = dlmread('F:\Graph_Datasets\celegansneural.txt');
+% data = dlmread('F:\Graph_Datasets\email-Eu-core new.txt');
+
+% data = dlmread('F:\Graph_Datasets\hamster.txt');
+% data = dlmread('F:\Graph_Datasets\new ppi.txt');
+% data = dlmread('F:\Graph_Datasets\metabolic.txt');
+
+%% new data sets
+% data = dlmread('F:\Graph_Datasets\hamsterster.txt');
+% data = dlmread('F:\Graph_Datasets\humancontact_wireless.txt');
+% data = dlmread('F:\Graph_Datasets\Misc.txt');
+
+% data = dlmread('F:\Graph_Datasets\hamster.txt');
+% data = dlmread('F:\Graph_Datasets\brain_neuron_net.txt');
+% data = dlmread('F:\Graph_Datasets\avs_wildbird_network.txt');
+% data = dlmread('E:\Graph_Datasets\aves_barn_swallow_contact_network.txt');
+% data = dlmread('F:\Graph_Datasets\brain_net.txt');
+
+
+maxx = max(max(data)); 
+% to fine minimum
+minn = min(min(data)); 
+%display(maxx);
+%display(minn);
+
+% creaete zeros matrix equal to the size of Maximum square matrix( n*m)
+matrix1 = zeros(maxx); 
+%create adj matrix
+for i = 1:length(data(:,1))         
+   matrix1(data(i,1),data(i,2))=1;  
+ 
+end
+
+% tramspose of matrix
+matrix1  = matrix1+matrix1';
+%display(matrix1);
+testID = [1,2];
+
+% % to find degree 
+s_degree = sum(matrix1);
+Score = s_degree(testID(:,1)).*s_degree(testID(:,2));
+% display(Score);
+%display(s_degree);
+
+% maximum degree
+max_degree = max(max(s_degree));
+% display(max_degree);
+
+% totla no of nodes
+total_nodes = max(data(:,1));
+
+%total no of links
+total_edges = length(data(:,2));
+
+%display(total_nodes);
+%display(total_edges);
+
+%total no of degrees
+length_s_degree = length(s_degree);
+% sum of degrees
+sum_of_s_degree = sum(s_degree);
+% average degrees
+average_degree  = sum_of_s_degree/length_s_degree;
+%display(length_s_degree);
+%display(sum_of_s_degree);
+%display(average_degree);
+
+
+%figure; hist(s_degree); figure; bar(s_degree); figure; plot(s_degree); figure; plot(graph(matrix1))
+
+alg_connec =algebraicConnectivity(matrix1);
+%display(alg_connec);
+
+sum_of_avg_neighbor_deg = sum(averageNeighborDegree(matrix1));
+%display(sum_of_avg_neighbor_deg);
+
+avg_path_legnth = averagePathLength(matrix1);
+%display(avg_path_legnth);
+
+no_clique = cliqueNumber(matrix1);
+%display(no_clique);
+
+cluscoff = clustCoeff(matrix1);
+%display(cluscoff);
+
+avg_closness = sum(closeness(matrix1));
+%display(avg_closness);
+
+% c_c = connectedComponentMeasures(matrix1);
+% display(c_c);
+
+diam = diameter(matrix1); 
+%display(diam);
+
+distance_distribution =sum(distanceDistribution(matrix1));
+%display(distance_distribution);
+
+% degree_circle = drawCircGraph(matrix1);
+% display(degree_circle);
+
+sum1 = edgeBetweenness(matrix1);
+sum2 = sum(sum1);
+edgbetwnss = sum(sum2);
+display(edgbetwnss);
+
+eigen_cen = sum(eigenCentrality(matrix1));
+%display(eigen_cen);
+
+% con_comp = findConnComp(matrix1);
+% display(con_comp);
+
+%get_rank_type(network, decomposition)
+
+graph_engergy = graphEnergy(matrix1);
+%display(graph_engergy);
+
+graph_Radous = graphRadius(matrix1);
+%display(graph_Radous);
+
+graph_specturum = sum(graphSpectrum(matrix1));
+%display(graph_specturum);
+
+
+is_simple = isSimple(matrix1);
+%display(is_simple);
+
+is_regular = isRegular(matrix1);
+%display(is_regular);
+
+deg = sum(matrix1);
+deg_ven = deg.';
+entrophy = konect_dentropy2(deg_ven);
+%display(entrophy);
+
+link_density = linkDensity(matrix1);
+%display(link_density);
+
+
+M1 = [];
+%M = zeros(4);
+% M(:,1) = [max_degree; total_nodes; total_edges;average_degree; alg_connec;
+%     sum_of_avg_neighbor_deg ; avg_path_legnth; no_clique; cluscoff;
+%     avg_closness; diam; distance_distribution;
+%     eigen_cen; graph_engergy; graph_Radous;
+% link_density; entrophy; is_regular; graph_specturum];
+
+
+% M1(:,1) = [max_degree; total_nodes; total_edges; length_s_degree; sum_of_s_degree;
+% average_degree; alg_connec; sum_of_avg_neighbor_deg ; avg_path_legnth;
+% no_clique; cluscoff; avg_closness; distance_distribution; eigen_cen; graph_engergy; 
+% graph_specturum; is_simple; is_regular;
+% entrophy; link_density;a;b];
+
+M1(:,1) = [max_degree; total_nodes; total_edges; length_s_degree; sum_of_s_degree; average_degree; alg_connec;
+sum_of_avg_neighbor_deg ; avg_path_legnth; no_clique; cluscoff; avg_closness; diam; distance_distribution; 
+eigen_cen; graph_engergy; graph_Radous; graph_specturum; is_simple; is_regular;
+entrophy; link_density];
+
+display(M1);
+
+
+
+
+

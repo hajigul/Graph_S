@@ -1,0 +1,5 @@
+
+M1_features_extraction;
+M2_features_extraction;
+
+cs_new = sum(M1.*M2)/sqrt(sum(M1.^2)*sum(M2.^2))
